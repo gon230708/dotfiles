@@ -20,7 +20,7 @@
 ;; 引数のディレクトリとそのサブディレクトリをload-pathに追加
 (add-to-load-path "elisp" "conf" "public_repos")
 
-;言語を日本語にする
+;; 言語を日本語にする
 (set-language-environment "Japanese")
 
 (setq locale-coding-system 'utf-8)
@@ -29,10 +29,10 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
-; 極力UTF-8とする
+;; 極力UTF-8とする
 (prefer-coding-system 'utf-8)
 
-; windowのサイズを設定
+;; windowのサイズを設定
 (setq initial-frame-alist
       (append (list
 	       '(width . 90)
@@ -43,20 +43,20 @@
 	      initial-frame-alist))
 (setq default-frame-alist initial-frame-alist)
 
-;Color
+;; Color
 (if window-system (progn
-  ;背景色
+  ;; 背景色
   (add-to-list 'default-frame-alist '(background-color . "black"))
-  ;文字色
+  ;; 文字色
   (add-to-list 'default-frame-alist '(foreground-color . "azure3"))
-  ;カーソル色
+  ;; カーソル色
   (add-to-list 'default-frame-alist '(cursor-color . "white"))
-  ;マウス色
+  ;; マウス色
   (add-to-list 'default-frame-alist '(mouse-color . "white"))
   (add-to-list 'default-frame-alist '(border-color . "black"))
 ))
 
-;フォントの設定
+;; フォントの設定
 (set-face-attribute 'default nil
                     :family "monaco" ;;英語
                     :height 120)
@@ -65,17 +65,17 @@
  'japanese-jisx0208
  '("Hiragino Maru Gothic Pro" . "iso10646-1")) ;;日本語
 
-;タイトルバーにファイルのフルパスを表示
+;; タイトルバーにファイルのフルパスを表示
 (setq frame-title-format
       (format "%%f -Emacs@%s" (system-name)))
 
-;選択領域の色
+;; 選択領域の色
 (add-to-list 'default-frame-alist '(face-background 'region . "#555"))
 
-;ビープ音の消去
+;; ビープ音の消去
 (setq ring-bell-function 'ignore)
 
-;対応する括弧を光らせる
+;; 対応する括弧を光らせる
 (show-paren-mode t)
 
 (custom-set-variables
@@ -90,6 +90,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; キーバインドの設定
+;; C-mにnewline-and-indentを割り当てる
+(define-key global-map (kbd "C-m") `newline-and-indent)
+
+;; "C-t"でウィンドウを切り替える。初期値はtranspose-chars
+(define-key global-map (kbd "C-t") `other-window)
 
 ;;;;; YaTex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

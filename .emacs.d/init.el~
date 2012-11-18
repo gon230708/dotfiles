@@ -36,7 +36,7 @@
 (setq initial-frame-alist
       (append (list
 	       '(width . 90)
-	       '(height . 50)
+	       '(height . 47)
 	       '(top . 0)
 	       '(left . 0)
 	       )
