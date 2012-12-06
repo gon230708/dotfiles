@@ -7,4 +7,4 @@ export MANPATH=/opt/local/man:$MANPATH
 alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
 alias emacsnw='emacs -nw'
 alias ls='ls -G -a'
-alias javac='javac -encoding UTF-8'
+alias javac='javac -J-Dfile.encoding=UTF-8'
