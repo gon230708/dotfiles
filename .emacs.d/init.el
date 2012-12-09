@@ -119,10 +119,10 @@
   )
 
 ;; フレーム関連のキーバインド
-(define-key global-map (kbd "C-c C-f C-s") 'set-selected-frame-size)
-(define-key global-map (kbd "C-c C-f C-h") 'set-selected-frame-height)
-(define-key global-map (kbd "C-c C-f C-w") 'set-selected-frame-width)
-(define-key global-map (kbd "C-c C-f C-a") 'set-selected-frame-alpha)
+(define-key global-map (kbd "C-c f s") 'set-selected-frame-size)
+(define-key global-map (kbd "C-c f h") 'set-selected-frame-height)
+(define-key global-map (kbd "C-c f w") 'set-selected-frame-width)
+(define-key global-map (kbd "C-c f a") 'set-selected-frame-alpha)
 
 ;; emacs-lisp-mode-hook用の関数を定義
 (defun elisp-mode-hooks ()
@@ -189,7 +189,8 @@
   (add-to-list 'ac-dictionary-directories
 	       "~/.emacs.d/elisp/ac-dict")
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-  (ac-config-default))
+  (ac-config-default)
+  (setq ac-auto-start 4))
 (global-auto-complete-mode t)
 
 ;; ajc-java-completeの設定
@@ -487,6 +488,12 @@
 
 ;; "C-z"でcua-scroll-downを実行
 (define-key global-map (kbd "C-z") 'cua-scroll-down)
+
+;; org-modeの設定
+(setq org-todo-keywords
+      '((sequence "TODO(t)""WAIT(w)"|"DONE(d)""SOMEDAY(s)")))
+;; DONEの時刻を記録
+(setq org-log-done 'time)
 
 ;; YaTexの設定
 (setq auto-mode-alist
