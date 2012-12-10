@@ -41,6 +41,9 @@
 	      initial-frame-alist))
 (setq default-frame-alist initial-frame-alist)
 
+;; フレームのalphaを設定
+(set-frame-parameter (selected-frame) 'alpha 0.85)
+
 ;; ターミナル以外はツールバーを非表示
 (when window-system
   ;; tool-barを非表示

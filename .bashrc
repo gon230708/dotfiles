@@ -3,6 +3,7 @@ export PATH=/Applications/UpTex.app/teTex/bin:$PATH
 export PATH=/opt/local/bin:/opt/local/sbin/:$PATH
 export PATH=/Applications/android-sdk-mac/sdk/tools:$PATH
 export PATH=/Applications/android-sdk-mac/sdk/platform-tools:$PATH
+export PATH=/cern/pro/bin:$PATH
 
 export MANPATH=/opt/local/man:$MANPATH
 
