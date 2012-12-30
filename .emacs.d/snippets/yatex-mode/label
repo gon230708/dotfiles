@@ -2,4 +2,4 @@
 # name: label
 # key: lab
 # --
-\label{${1:$$(yas-choose-value '("fig" "eq"))}:${2:name}}
+\label{${1:$$(yas-choose-value '("fig" "eq" "table"))}:${2:name}}

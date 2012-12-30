@@ -193,7 +193,12 @@
 	       "~/.emacs.d/elisp/ac-dict")
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
   (ac-config-default)
-  (setq ac-auto-start 4))
+  (setq ac-use-menu-map t) ;; C-n/C-pで候補選択可能
+  (add-to-list 'ac-sources 'ac-source-yasnippet) ;; 常にYASnippetを補完候補に
+  (setq ac-delay 0.5)
+  (setq ac-auto-start 5)
+  (setq ac-auto-show-menu 0.5)
+  (setq ac-candidate-limit 50))
 (global-auto-complete-mode t)
 
 ;; ajc-java-completeの設定
