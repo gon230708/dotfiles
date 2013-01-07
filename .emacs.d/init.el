@@ -300,6 +300,8 @@
 (define-key yas-minor-mode-map (kbd "C-c i b") 'yas-new-snippet)
 ;; 既存スニペットを閲覧・編集する
 (define-key yas-minor-mode-map (kbd "C-c i v") 'yas-visit-snippet-file)
+;; スニペットのテーブルを閲覧する
+(define-key yas-minor-mode-map (kbd "C-c i d") 'yas-describe-tables)
 ;; anything interface
 (eval-after-load "anything-config"
   '(progn
