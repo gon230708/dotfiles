@@ -35,7 +35,7 @@
       (append (list
 	       '(width . 90)
 	       '(height . 49)
-	       '(top . 0)
+	       '(top . o)
 	       '(left . 0)
 	       )
 	      initial-frame-alist))
@@ -324,6 +324,16 @@
 (setf (symbol-function 'yas-active-keys)
       (lambda ()
         (remove-duplicates (mapcan #'yas--table-all-keys (yas--get-snippet-tables)))))
+
+;; popwinの設定
+;(auto-install-from-url "https://github.com/m2ym/popwin-el/raw/master/popwin.el")
+(require 'popwin)
+(setq popwin:popup-window-height 20)
+(setq display-buffer-function 'popwin:display-buffer)
+(require 'dired-x)
+(push '(dired-mode :position top) popwin:special-display-config)
+(require 'popwin-yatex)
+(push '("*YaTeX-typesetting*") popwin:special-display-config)
 
 ;;flymake実行
 (require 'flymake)
