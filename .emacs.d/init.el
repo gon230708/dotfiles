@@ -328,7 +328,7 @@
 ;; popwinの設定
 ;(auto-install-from-url "https://github.com/m2ym/popwin-el/raw/master/popwin.el")
 (require 'popwin)
-(setq popwin:popup-window-height 20)
+(setq popwin:popup-window-height 23)
 (setq display-buffer-function 'popwin:display-buffer)
 (require 'dired-x)
 (push '(dired-mode :position top) popwin:special-display-config)
