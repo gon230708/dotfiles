@@ -332,8 +332,8 @@
 (setq display-buffer-function 'popwin:display-buffer)
 (require 'dired-x)
 (push '(dired-mode :position top) popwin:special-display-config)
-(require 'popwin-yatex)
-(push '("*YaTeX-typesetting*") popwin:special-display-config)
+;(require 'popwin-yatex)
+;(push '("*YaTeX-typesetting*") popwin:special-display-config)
 
 ;;flymake実行
 (require 'flymake)
