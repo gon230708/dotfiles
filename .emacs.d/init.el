@@ -635,14 +635,27 @@
 ;; default は 2
 (setq YaTeX-kanji-code 1)
 
+;; (autoload 'latex-indent-command "~/misc/latex-indent"
+;;   "Indent current line accroding to LaTeX block structure.")
+;; (autoload 'latex-indent-region-command "~/misc/latex-indent"
+;;   "Indent each line in the region according to LaTeX block structure.")
+;; (add-hook
+;;  'latex-mode-hook
+;;  '(lambda ()
+;;     (define-key tex-mode-map "\t"	 'latex-indent-command)
+;;     (define-key tex-mode-map "\M-\C-\\" 'latex-indent-region-command)))
+
 ;; --------------------------------------------------
 ;; global keybind
 ;; --------------------------------------------------
 
 ;; "C-t"でウィンドウを切り替える。初期値はtranspose-chars
 (define-key global-map (kbd "C-t") 'next-multiframe-window)
+(define-key global-map (kbd "C-S-t") 'previous-multiframe-window)
 (define-key global-map (kbd "C-m") 'newline-and-indent)
 (define-key global-map (kbd "C-x C-b") 'anything-for-files)
 (define-key global-map (kbd "C-c C-y") 'anything-show-kill-ring)
 (define-key global-map (kbd "C-z") 'cua-scroll-down)
 (define-key global-map (kbd "C-c a") 'align)
+(define-key global-map (kbd "C-S-i") 'indent-region)
+(define-key global-map (kbd "C-,") 'replace-string)
