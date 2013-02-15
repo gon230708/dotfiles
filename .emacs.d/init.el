@@ -3,6 +3,18 @@
 (when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d/"))
 
+;; バックアップファイルの作成場所をシステムのTempディレクトリに変更する
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+;; オートセーブファイルの作成場所をシステムのTempディレクトリに変更する
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+
+;; --------------------------------------------------
+;; PATH
+;; --------------------------------------------------
+
 ;; load-path を追加する関数を定義
 (defun add-to-load-path (&rest paths)
   (let (path)
@@ -15,6 +27,11 @@
 
 ;; 引数のディレクトリとそのサブディレクトリをload-pathに追加
 (add-to-load-path "elisp" "conf" "public_repos")
+
+
+;; --------------------------------------------------
+;; encoding
+;; --------------------------------------------------
 
 ;; 言語を日本語にする
 (set-language-environment "Japanese")
@@ -29,6 +46,10 @@
 
 ;; 極力UTF-8-HFSとする
 (prefer-coding-system 'utf-8-hfs)
+
+;; --------------------------------------------------
+;; window setting
+;; --------------------------------------------------
 
 ;; windowのサイズを設定
 (setq initial-frame-alist
@@ -49,6 +70,20 @@
   ;; tool-barを非表示
   (tool-bar-mode 0))
 
+;; タイトルバーにファイルのフルパスを表示
+(setq frame-title-format
+      (format "%%&%%f -Emacs@%s" (system-name)))
+
+;; カラム番号も表示
+(column-number-mode t)
+
+;; ビープ音の消去
+(setq ring-bell-function 'ignore)
+
+;; --------------------------------------------------
+;; color
+;; --------------------------------------------------
+
 ;; Color
 (if window-system (progn
   ;; 背景色
@@ -62,6 +97,19 @@
   (add-to-list 'default-frame-alist '(border-color . "black"))
 ))
 
+;; 選択領域の色
+(set-face-background 'region "#555")
+
+;; 対応する括弧を光らせる
+(show-paren-mode t)
+(setq show-paren-style 'expression)
+(set-face-background 'show-paren-match-face nil)
+(set-face-underline-p 'show-paren-match-face "Brown")
+
+;; --------------------------------------------------
+;; font
+;; --------------------------------------------------
+
 ;; フォントの設定
 (set-face-attribute 'default nil
                     :family "Monaco" ;;英語
@@ -71,37 +119,16 @@
  nil 'japanese-jisx0208
  (font-spec :family "Hiragino Maru Gothic Pro"))
 
-;; タイトルバーにファイルのフルパスを表示
-(setq frame-title-format
-      (format "%%&%%f -Emacs@%s" (system-name)))
-
-;; カラム番号も表示
-(column-number-mode t)
-
-;; 選択領域の色
-(set-face-background 'region "#555")
-
-;; ビープ音の消去
-(setq ring-bell-function 'ignore)
-
-;; 対応する括弧を光らせる
-(show-paren-mode t)
-(setq show-paren-style 'expression)
-(set-face-background 'show-paren-match-face nil)
-(set-face-underline-p 'show-paren-match-face "Brown")
-
-;; バックアップファイルの作成場所をシステムのTempディレクトリに変更する
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-;; オートセーブファイルの作成場所をシステムのTempディレクトリに変更する
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
 
 ;; フレームの大きさを設定する関数
 (defun set-selected-frame-size (width height)
   (interactive "nWidth(90):  \nnHeight(49): ")
   (set-frame-size (selected-frame) width height)
   )
+
+;; --------------------------------------------------
+;; original function
+;; --------------------------------------------------
 
 ;; フレームの縦方向の大きさを変更する関数
 (defun set-selected-frame-height (height)
@@ -127,7 +154,10 @@
 (define-key global-map (kbd "C-c f w") 'set-selected-frame-width)
 (define-key global-map (kbd "C-c f a") 'set-selected-frame-alpha)
 
-;; emacs-lisp-mode-hook用の関数を定義
+;; --------------------------------------------------
+;; emacs-lisp-mode-hook
+;; --------------------------------------------------
+
 (defun elisp-mode-hooks ()
   "lisp-mode-hooks"
   (when (require 'eldoc nil t)
@@ -138,7 +168,10 @@
 ;; emacs-lisp-modeのフックをセット
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
 
-;; migemoの設定
+;; --------------------------------------------------
+;; migemo
+;; --------------------------------------------------
+
 (require 'migemo)
 (setq migemo-command "/usr/local/bin/cmigemo")
 (setq migemo-options '("-q" "--emacs"))
@@ -150,7 +183,10 @@
 (migemo-init)
 (set-process-query-on-exit-flag (get-process "migemo") nil)
 
-;; auto-installの設定
+;; --------------------------------------------------
+;; auto-install
+;; --------------------------------------------------
+
 (when (require 'auto-install nil t)
   ;; インストールディスクを設定する。初期値は~/.emacs.d/auto-install/
   (setq auto-install-directory "~/.emacs.d/elisp/")
@@ -160,13 +196,19 @@
   ;;(auto-install-compatibility-setup)
   )
 
-;; redo+の設定
+;; --------------------------------------------------
+;; redo+
+;; --------------------------------------------------
+
 ;; (install-elisp "http://www.emacswiki.org/emacs/download/redo+.el")
 (when (require 'redo+ nil t)
   ;; C--にリドゥを割り当てる
   (define-key global-map (kbd "C--") 'redo))
 
-;; ELPAの設定
+;; --------------------------------------------------
+;; ELPA
+;; --------------------------------------------------
+
 (when (require 'package nil t)
   ;; パッケージリポジトリにMarmaladeと開発運営者のELPAを追加
   (add-to-list 'package-archives
@@ -176,18 +218,27 @@
   (package-initialize)
   )
 
-;; wdiredの設定
+;; --------------------------------------------------
+;; wdired
+;; --------------------------------------------------
+
 ;; (auto-install-from-emacswiki "wdired")
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
-;; point-doの設定
+;; --------------------------------------------------
+;; point-do
+;; --------------------------------------------------
+
 ;; (auto-install-from-emacswiki "point-undo.el")
 (when (require 'point-undo nil t)
   (define-key global-map (kbd "M-[") 'point-undo)
   (define-key global-map (kbd "M-]") 'point-redo))
-  
-;; autp-completeの設定
+
+;; --------------------------------------------------
+;; autp-complete
+;; --------------------------------------------------
+
 (when (require 'auto-complete-config nil t)
   (add-to-list 'ac-dictionary-directories
 	       "~/.emacs.d/elisp/ac-dict")
@@ -201,12 +252,18 @@
   (setq ac-candidate-limit 50))
 (global-auto-complete-mode t)
 
-;; ajc-java-completeの設定
+;; --------------------------------------------------
+;; ajc-java-complete
+;; --------------------------------------------------
+
 (require 'ajc-java-complete-config)
 (add-hook 'java-mode-hook 'ajc-java-complete-mode)
 (add-hook 'find-file-hook 'ajc-4-jsp-find-file-hook)
 
-;; Anythingの設定サンプル
+;; --------------------------------------------------
+;; Anything
+;; --------------------------------------------------
+
 ;; (auto-install-batch "anything")
 (when (require 'anything nil t)
   (setq
@@ -263,7 +320,13 @@
 	    (thing-at-point 'symbol) nil nil nil 
 	    "*anything for document*"))
 
-;; yasnippetの設定
+;; "C-c C-d"にanything-for-documentを割り当て
+(define-key global-map (kbd "C-c C-d") 'anything-for-document)
+
+;; --------------------------------------------------
+;; yasnippet
+;; --------------------------------------------------
+
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets" ;; 作成するスニペットはここに入る
@@ -272,22 +335,22 @@
 (defvar yas-candidates nil)
 
 (defun init-yas-candidates ()
-	(let ((table (yas/get-snippet-tables major-mode)))
-		(if table
-		  (let (candidates (list))
-				(mapcar (lambda (mode)          
-				  (maphash (lambda (key value)    
-					(push key candidates))          
-				  (yas/table-hash mode))) 
-				table)				
-			(setq yas-candidates candidates)))))
-			
-			
+  (let ((table (yas/get-snippet-tables major-mode)))
+    (if table
+	(let (candidates (list))
+	  (mapcar (lambda (mode)          
+		    (maphash (lambda (key value)    
+			       (push key candidates))          
+			     (yas/table-hash mode))) 
+		  table)				
+	  (setq yas-candidates candidates)))))
+
+
 (defvar ac-new-yas-source
-	'(	(init . init-yas-candidates)
-		(candidates . yas-candidates)
-		(action . yas/expand)
-		(symbol . "a")))
+  '(	(init		.	init-yas-candidates)
+	(candidates	.	yas-candidates)
+	(action		.	yas/expand)
+	(symbol		.	"a")))
 
 (provide 'my-yas-funs)
 ;; 単語展開キーバインド (ver8.0から明記しないと機能しない)
@@ -310,9 +373,9 @@
                            collect (or (and display-fn (funcall display-fn choice))
                                        choice)))
               (selected (anything-other-buffer
-                         `(((name . ,(format "%s" prompt))
-                            (candidates . names)
-                            (action . (("Insert snippet" . (lambda (arg) arg))))))
+                         `(((name	.	,(format "%s" prompt))
+                            (candidates .	names)
+                            (action	.	(("Insert snippet" . (lambda (arg) arg))))))
                          "*anything yas/prompt*")))
          (if selected
              (let ((n (position selected names :test 'equal)))
@@ -325,17 +388,23 @@
       (lambda ()
         (remove-duplicates (mapcan #'yas--table-all-keys (yas--get-snippet-tables)))))
 
-;; popwinの設定
-;(auto-install-from-url "https://github.com/m2ym/popwin-el/raw/master/popwin.el")
+;; --------------------------------------------------
+;; popwin
+;; --------------------------------------------------
+
+;;;(auto-install-from-url "https://github.com/m2ym/popwin-el/raw/master/popwin.el")
 (require 'popwin)
 (setq popwin:popup-window-height 23)
 (setq display-buffer-function 'popwin:display-buffer)
 (require 'dired-x)
 (push '(dired-mode :position top) popwin:special-display-config)
-;(require 'popwin-yatex)
-;(push '("*YaTeX-typesetting*") popwin:special-display-config)
+;;;(require 'popwin-yatex)
+;;;(push '("*YaTeX-typesetting*") popwin:special-display-config)
 
-;;flymake実行
+;; --------------------------------------------------
+;; flymake
+;; --------------------------------------------------
+
 (require 'flymake)
 
 ;; Makefileの種類を定義
@@ -394,14 +463,14 @@
    'flymake-get-make-gcc-cmdline))
 
 ;; 拡張子 .c .cpp, c++などの時に上記の関数を利用する
- (add-to-list 'flymake-allowed-file-name-masks
+(add-to-list 'flymake-allowed-file-name-masks
  	     '("\\.\\(?:c\\(?:pp\\|xx\\|\\+\\+\\)?\\|CC\\)\\'"
  	       flymake-simple-make-gcc-init))
-	       
-;; "C-c C-d"にanything-for-documentを割り当て
-(define-key global-map (kbd "C-c C-d") 'anything-for-document)
 
-;; color-moccurの設定
+;; --------------------------------------------------
+;; color-moccur
+;; --------------------------------------------------
+
 ;; (auto-install-from-emacswiki "color-moccur.el")
 (when (require 'color-moccur nil t)
   ;; M-o に occur-by-moccur を割り当て
@@ -416,37 +485,55 @@
 	     (require 'migemo nil t))
     (setq moccur-use-migemo t)))
 
-;; moccur-editの設定
+;; --------------------------------------------------
+;; moccur-edit
+;; --------------------------------------------------
+
 ;; (auto-install-from-emacswiki "moccur-edit.el")
 (require 'moccur-edit nil t)
 
-;; undohistの設定
+;; --------------------------------------------------
+;; undohist
+;; --------------------------------------------------
+
 ;; (install-elisp "http://cx4a.org/pub/undohist.el")
 (when (require 'undohist nil t)
   (undohist-initialize))
 
-;; undo-treeの設定
+;; --------------------------------------------------
+;; undo-tree
+;; --------------------------------------------------
 (when (require 'undo-tree nil t)
   (global-undo-tree-mode))
 
-;; multi-termの設定
+;; --------------------------------------------------
+;; multi-term
+;; --------------------------------------------------
+
 ;; (package-install "multi-term")
 (when (require 'multi-term nil t)
   ;; 使用するシェルの指定
   (setq multi-term-program "/bin/bash"))
 
-;; Eggの設定
+;; --------------------------------------------------
+;; Egg
+;; --------------------------------------------------
+
 ;; (install-elisp "https://raw.github.com/byplayer/egg/master/egg.el")
 (when (executable-find "git")
   (require 'egg nil t))
 
-;; gtags-modeのキーバインドを有効にする
+;; --------------------------------------------------
+;; gtags-mode
+;; --------------------------------------------------
 ;; (setq gtags-suggested-key-mapping t)
 (require 'gtags nil t)
 
-;; ctagsの設定
+;; --------------------------------------------------
+;; ctags
+;; --------------------------------------------------
 ;; (package-install "ctags")
-;(require 'ctags nil t)
+					;(require 'ctags nil t)
 ;;(setq tags-revert-without-query t)
 ;; ctagsを呼び出すコマンドライン。パスが通っていればフルパスでなくても良い
 ;; etags互換タグを利用する場合はコメントを外す
@@ -467,13 +554,16 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; howmの設定
+;; --------------------------------------------------
+;; howm
+;; --------------------------------------------------
+
 ;; howmメモ保存の場所
 (setq howm-directory (concat user-emacs-directory "howm"))
 ;; howm-menuの言語を日本語に
 (setq howm-memu-lang 'ja)
 ;; howmメモを1日1ファイルにする
-; (setq howm-file-name-format "%Y/%m/%Y-%m-%d.howm")
+;;;(setq howm-file-name-format "%Y/%m/%Y-%m-%d.howm")
 ;; howm-modeを読み込む
 (when (require 'howm nil t)
   ;; C-c,,でhowm-menuを起動
@@ -484,47 +574,39 @@
   (interactive)
   (when (and (buffer-file-name)
 	     (string-match "\\.howm" (buffer-file-name)))
-	     (save-buffer)
-	     (kill-buffer nil)))
+    (save-buffer)
+    (kill-buffer nil)))
 ;; C-c C-cでメモの保存と同時にバッファを閉じる
 (define-key howm-mode-map (kbd "C-c C-c") 'howm-save-buffer-and-kill)
 
-;; cua-modeの設定
+;; --------------------------------------------------
+;; cua-mode
+;; --------------------------------------------------
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
-;; キーバインドの設定
-;; C-mにnewline-and-indentを割り当てる
-(define-key global-map (kbd "C-m") 'newline-and-indent)
+;; --------------------------------------------------
+;; org-mode
+;; --------------------------------------------------
 
-;; "C-t"でウィンドウを切り替える。初期値はtranspose-chars
-(define-key global-map (kbd "C-t") 'other-window)
-
-;; "C-x C-b"でanything-for-filesを開く
-(define-key global-map (kbd "C-x C-b") 'anything-for-files)
-
-;; "C-c C-k"でanything-show-kill-ringを実行
-(define-key global-map (kbd "C-c C-y") 'anything-show-kill-ring)
-
-;; "C-z"でcua-scroll-downを実行
-(define-key global-map (kbd "C-z") 'cua-scroll-down)
-
-;; org-modeの設定
 (setq org-todo-keywords
       '((sequence "TODO(t)""WAIT(w)"|"DONE(d)""SOMEDAY(s)")))
 ;; DONEの時刻を記録
 (setq org-log-done 'time)
 
-;; YaTexの設定
+;; --------------------------------------------------
+;; YaTex
+;; --------------------------------------------------
+
 (setq auto-mode-alist
       (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
-;(setq load-path(cons(expand-file-name "~/.emacs.d/site-lisp/yatex")load-path))
+;;;(setq load-path(cons(expand-file-name "~/.emacs.d/site-lisp/yatex")load-path))
 
 ;; Settings for platex command
 ;; texファイルの文字コードによってここを変える必要がある
 (setq tex-command "platex --kanji=sjis")
-;(setq tex-command "platex --kanji=euc --fmt=platex-euc")
+;;;(setq tex-command "platex --kanji=euc --fmt=platex-euc")
 
 
 ;; Settings for Previwer Mxdvi
@@ -552,3 +634,15 @@
 ;; 1 = Shift_JIS, 2 = ISO-2022-JP, 3 = EUC-JP
 ;; default は 2
 (setq YaTeX-kanji-code 1)
+
+;; --------------------------------------------------
+;; global keybind
+;; --------------------------------------------------
+
+;; "C-t"でウィンドウを切り替える。初期値はtranspose-chars
+(define-key global-map (kbd "C-t") 'next-multiframe-window)
+(define-key global-map (kbd "C-m") 'newline-and-indent)
+(define-key global-map (kbd "C-x C-b") 'anything-for-files)
+(define-key global-map (kbd "C-c C-y") 'anything-show-kill-ring)
+(define-key global-map (kbd "C-z") 'cua-scroll-down)
+(define-key global-map (kbd "C-c a") 'align)
