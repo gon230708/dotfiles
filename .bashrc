@@ -10,6 +10,7 @@ export MANPATH=/opt/local/man:$MANPATH
 alias emacs="open -a /Applications/Emacs24.2.app"
 alias emacsnw='emacs -nw'
 alias ls='ls -G -a'
+alias ll='ls -l -a'
 alias javac='javac -J-Dfile.encoding=UTF-8'
 
 export ANT_OPTS=-Dfile.encoding=UTF8

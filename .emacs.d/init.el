@@ -113,6 +113,7 @@
 ;; フォントの設定
 (set-face-attribute 'default nil
                     :family "Monaco" ;;英語
+		    ;:family "Ricty"
                     :height 120)
 
 (set-fontset-font
@@ -650,12 +651,12 @@
 ;; --------------------------------------------------
 
 ;; "C-t"でウィンドウを切り替える。初期値はtranspose-chars
-(define-key global-map (kbd "C-t") 'next-multiframe-window)
-(define-key global-map (kbd "C-S-t") 'previous-multiframe-window)
-(define-key global-map (kbd "C-m") 'newline-and-indent)
-(define-key global-map (kbd "C-x C-b") 'anything-for-files)
-(define-key global-map (kbd "C-c C-y") 'anything-show-kill-ring)
-(define-key global-map (kbd "C-z") 'cua-scroll-down)
-(define-key global-map (kbd "C-c a") 'align)
-(define-key global-map (kbd "C-S-i") 'indent-region)
-(define-key global-map (kbd "C-,") 'replace-string)
+(define-key global-map (kbd "C-t")	'next-multiframe-window)
+(define-key global-map (kbd "C-S-t")	'previous-multiframe-window)
+(define-key global-map (kbd "C-m")	'newline-and-indent)
+(define-key global-map (kbd "C-x C-b")	'anything-for-files)
+(define-key global-map (kbd "C-c C-y")	'anything-show-kill-ring)
+(define-key global-map (kbd "C-z")	'cua-scroll-down)
+(define-key global-map (kbd "C-c a")	'align)
+(define-key global-map (kbd "C-S-i")	'indent-region)
+(define-key global-map (kbd "C-,")	'replace-string)
