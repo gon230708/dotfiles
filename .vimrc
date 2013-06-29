@@ -29,6 +29,18 @@ autocmd!
 autocmd InsertEnter * highlight StatusLine guifg=#ccdc90 guibg=#2E4340
 autocmd InsertLeave * highlight StatusLine guifg=#2E4340 guibg=#ccdc90
 augroup END
+
+" ======================================== 
+" System Settings
+" ======================================== 
+" マウスの設定
+if has('mouse')
+	set mouse=a
+endif
+
+" コマンドライン補完の強化
+set wildmenu
+
 " ======================================== 
 " Indentt Settings
 " ======================================== 
